@@ -78,6 +78,7 @@ export class CenterOnRevealController {
 	constructor(
 		private app: App,
 		private flashController = new FlashController(browserTimer()),
+		private isExcluded: (filePath: string) => boolean = () => false,
 	) {}
 
 	async start(): Promise<void> {
@@ -119,6 +120,9 @@ export class CenterOnRevealController {
 	}
 
 	private centerAndFlash(): boolean {
+		const activePath = this.app.workspace.getActiveFile()?.path;
+		if (activePath && this.isExcluded(activePath)) return true;
+
 		const scroller = this.getExplorerScroller();
 		if (!scroller || scroller.clientHeight === 0) return false;
 

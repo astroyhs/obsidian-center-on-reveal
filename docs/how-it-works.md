@@ -38,7 +38,9 @@ the active row changes, and forces a reflow only when the same row is flashed ag
 
 ## Boundaries
 
+The plugin has no commands, network calls, or telemetry. Its only setting is **Excluded folders**:
+one vault-relative folder path per line. When the active file is at or under an excluded folder,
+Obsidian's default reveal runs untouched — no centering, no flash.
+
 The plugin does not implement its own file tree traversal. Obsidian remains responsible for finding
 the active file, expanding parent folders, and rendering the row.
-
-The plugin has no settings, commands, custom CSS, network calls, or telemetry in v0.1.0.

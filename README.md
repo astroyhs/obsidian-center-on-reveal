@@ -13,10 +13,10 @@ auto reveal behavior, then centers the revealed row and applies Obsidian's nativ
 
 ## Behavior
 
-- Enables the built-in file explorer auto reveal on startup.
 - Centers the active file row after Obsidian reveals it.
 - Flashes the active file row with the built-in `is-flashing` class.
-- Does not add commands, settings, network calls, telemetry, or custom CSS.
+- Skips centering for folders listed under **Settings → Center on Reveal → Excluded folders** (empty by default, so everything is centered).
+- Does not add commands, network calls, telemetry, or custom CSS.
 
 ## Requirements
 

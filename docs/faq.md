@@ -18,7 +18,8 @@ The plugin handles deferred sidebar views through `WorkspaceLeaf.isDeferred` and
 
 ### Does it have settings?
 
-No. v0.1.0 always enables built-in auto reveal, centers the active row, and flashes it.
+Yes. **Excluded folders** accepts one vault-relative folder path per line. Files at or under
+those folders keep Obsidian's default reveal without centering or flashing. Empty by default.
 
 ### Does it move focus away from the editor?
 
