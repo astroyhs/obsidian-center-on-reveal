@@ -8,8 +8,8 @@ sidebar:
 
 ### Does this replace Obsidian's auto reveal?
 
-No. It enables and reuses Obsidian's built-in file explorer auto reveal, then adjusts the final
-scroll position.
+Yes. It disables the built-in file explorer auto reveal on startup (restored on unload) and only
+expands, centers, and flashes files that are not under an excluded folder.
 
 ### Why does it require Obsidian 1.7.2?
 
@@ -23,13 +23,13 @@ those folders keep Obsidian's default reveal without centering or flashing. Empt
 
 ### Does it move focus away from the editor?
 
-No. It uses the built-in auto reveal path, which reveals the active file without focusing the file
-explorer.
+No. It reveals the active file through Obsidian's own `revealActiveFile()` path without focusing the
+file explorer.
 
-### Why can a row briefly appear near the edge before centering?
+### Why can a row briefly appear before centering?
 
-Obsidian first scrolls the row into view with its own nearest-edge behavior. Center on Reveal then
-adjusts the same row to the middle. On slower machines, that can be visible for a moment.
+The row is rendered by Obsidian first, then Center on Reveal moves it to the middle. On slower
+machines, that can be visible for a moment.
 
 ### Which files are release assets?
 

@@ -8,14 +8,15 @@
 
 </div>
 
-Center on Reveal keeps Obsidian's file explorer focused on the active file. It uses the built-in
-auto reveal behavior, then centers the revealed row and applies Obsidian's native flash highlight.
+Center on Reveal keeps Obsidian's file explorer focused on the active file. It takes over file
+revealing: the built-in auto reveal is disabled, and only non-excluded files are expanded, centered,
+and flashed with Obsidian's native highlight.
 
 ## Behavior
 
-- Centers the active file row after Obsidian reveals it.
-- Flashes the active file row with the built-in `is-flashing` class.
-- Skips centering for folders listed under **Settings → Center on Reveal → Excluded folders** (empty by default, so everything is centered).
+- Disables the built-in file explorer auto reveal on startup and restores it on unload.
+- Expands, centers, and flashes the active file row when it is not excluded.
+- Skips excluded folders entirely: files under **Settings → Center on Reveal → Excluded folders** leave the explorer untouched (empty by default, so everything is centered).
 - Does not add commands, network calls, telemetry, or custom CSS.
 
 ## Requirements

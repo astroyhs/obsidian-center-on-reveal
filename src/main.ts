@@ -54,12 +54,12 @@ export default class CenterOnRevealPlugin extends Plugin {
 			void this.controller.start();
 		});
 
-		this.registerEvent(this.app.workspace.on('file-open', () => this.controller.centerSoon()));
+		this.registerEvent(this.app.workspace.on('file-open', () => this.controller.revealSoon()));
 	}
 
 	onunload(): void {
 		this.unloaded = true;
-		this.controller.clear();
+		this.controller.restore();
 	}
 
 	async loadSettings(): Promise<void> {

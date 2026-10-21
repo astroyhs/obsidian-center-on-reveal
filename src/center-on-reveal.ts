@@ -81,8 +81,20 @@ export class CenterOnRevealController {
 		private isExcluded: (filePath: string) => boolean = () => false,
 	) {}
 
+	private ready = false;
+
 	async start(): Promise<void> {
-		await this.enableBuiltinAutoReveal();
+		await this.disableBuiltinAutoReveal();
+		this.ready = true;
+		this.revealSoon();
+	}
+
+	revealSoon(): void {
+		if (!this.ready) return;
+		const activePath = this.app.workspace.getActiveFile()?.path;
+		if (activePath && this.isExcluded(activePath)) return;
+
+		this.expandActiveFile();
 		this.centerSoon();
 	}
 
@@ -97,13 +109,33 @@ export class CenterOnRevealController {
 		window.requestAnimationFrame(tick);
 	}
 
-	clear(): void {
+	restore(): void {
 		this.flashController.clear();
+		void this.getExplorerView().then((view) => {
+			view?.setAutoReveal?.(true);
+			void this.app.workspace.requestSaveLayout();
+		});
 	}
 
-	private async enableBuiltinAutoReveal(): Promise<void> {
+	private async disableBuiltinAutoReveal(): Promise<void> {
+		const view = await this.getExplorerView();
+		if (!view) return;
+		view.setAutoReveal?.(false);
+		void this.app.workspace.requestSaveLayout();
+	}
+
+	private expandActiveFile(): void {
+		const activeFile = this.app.workspace.getActiveFile();
+		if (!activeFile) return;
+		this.app.workspace.getLeavesOfType(FILE_EXPLORER).forEach((leaf) => {
+			const view = leaf.view as unknown as FileExplorerView;
+			view.revealActiveFile?.();
+		});
+	}
+
+	private async getExplorerView(): Promise<FileExplorerView | null> {
 		const leaf = this.app.workspace.getLeavesOfType(FILE_EXPLORER)[0];
-		if (!leaf) return;
+		if (!leaf) return null;
 		if (leaf.isDeferred) await leaf.loadIfDeferred();
 
 		const view = leaf.view as unknown as FileExplorerView;
@@ -111,12 +143,9 @@ export class CenterOnRevealController {
 			console.error(
 				'[center-on-reveal] file-explorer view has no setAutoReveal(); internal API may have changed',
 			);
-			return;
+			return null;
 		}
-
-		view.setAutoReveal(true);
-		view.revealActiveFile?.();
-		void this.app.workspace.requestSaveLayout();
+		return view;
 	}
 
 	private centerAndFlash(): boolean {
